@@ -60,7 +60,7 @@ async def run():
 
     rw_times = []
     i = 0
-    while i < 200:
+    while i < 5:
         el = await run_some(client)
         rw_times.append(el)
         time.sleep(1)
