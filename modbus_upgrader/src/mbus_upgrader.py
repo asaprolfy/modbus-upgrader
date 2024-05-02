@@ -11,7 +11,7 @@ from pymodbus.device import ModbusDeviceIdentification
 
 
 class MbusUpgrader:
-    msg_count: int = 0
+    msg_count: int = 1
     server: ModbusTcpServer = None
     client: ModbusTlsClient = None
     context: ModbusServerContext = None
