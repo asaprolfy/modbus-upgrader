@@ -62,7 +62,8 @@ async def run():
     i = 0
     while i < 5:
         el = await run_some(client)
-        rw_times.append(el)
+        if el:
+            rw_times.append(el)
         time.sleep(1)
         i += 1
     client.close()
