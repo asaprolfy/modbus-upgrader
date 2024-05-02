@@ -4,18 +4,25 @@ services:
   upgrader:
     container_name: upgrader
     restart: on-failure
+    ports:
+      - '5020:5020'
+      - '502'
     build:
       dockerfile: Dockerfile
       context: modbus_upgrader
   server:
     container_name: server
     restart: on-failure
+    ports:
+      - '502:502'
     build:
       dockerfile: Dockerfile
       context: server
   client:
     container_name: client
     restart: on-failure
+    ports:
+      - '502'
     build:
       dockerfile: Dockerfile
       context: tcp_client
