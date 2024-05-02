@@ -42,6 +42,8 @@ async def run():
         client.connect()
     print(f"client connection successful")
     await run_some(client)
+    time.sleep(i)
+    client.close()
 
 
 async def run_some(client):
