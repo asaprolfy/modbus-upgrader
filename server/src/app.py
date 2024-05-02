@@ -7,7 +7,7 @@ from pymodbus.framer import Framer
 from util import build_context
 from mbus_server import MbusServer
 
-host = config('SERVER_HOSTNAME', default='localhost')
+host = config('SERVER_HOSTNAME', default='')
 port = int(config('SERVER_PORT', default='502'))
 address = (host, port)
 

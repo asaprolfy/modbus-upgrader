@@ -8,7 +8,7 @@ from pymodbus import Framer
 from pymodbus.client import ModbusTcpClient
 
 
-server_host = config('SERVER_HOST', default='localhost')
+server_host = config('SERVER_HOST', default='upgrader')
 server_port = int(config('SERVER_PORT', default='502'))
 framer_type = config('FRAMER_TYPE', default='SOCKET')
 
