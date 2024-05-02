@@ -4,7 +4,7 @@ import asyncio
 import logging as log
 
 from decouple import config
-from pymodbus import Framer
+from pymodbus import Framer, ModbusException
 from pymodbus.client import ModbusTcpClient
 
 
@@ -41,6 +41,17 @@ async def run():
         i += 1
         client.connect()
     print(f"client connection successful")
+
+
+def run_some(client):
+    try:
+        rr = await client.read_coils(32, 1, slave=1)
+        assert len(rr.bits) == 8
+        rr = await client.read_holding_registers(4, 2, slave=1)
+        assert rr.registers[0] == 17
+        assert rr.registers[1] == 17
+    except ModbusException as e:
+        print(f"error: {e}")
 
 
 if __name__ == "__main__":
