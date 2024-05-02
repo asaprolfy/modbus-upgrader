@@ -12,7 +12,7 @@ server_port = int(config('SERVER_PORT', default='502'))
 
 listen_host = config('LISTEN_HOST', default='')
 listen_port = int(config('LISTEN_PORT', default='5020'))
-server_framer_type = config('SERVER_FRAMER_TYPE', default='SOCKET')
+server_framer_type = config('SERVER_FRAMER_TYPE', default='RTU')
 store = config('STORE', default='factory')
 num_slaves = int(config('NUM_SLAVES', default='0'))
 ignore_missing_slaves = bool(config('IGNORE_MISSING_SLAVES', default='True'))
