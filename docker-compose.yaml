@@ -26,7 +26,7 @@ services:
     container_name: client
     restart: on-failure
     env_file:
-      - tcp_client.env.local
+      - tcp_client/.env.local
     ports:
       - '502'
     build:
