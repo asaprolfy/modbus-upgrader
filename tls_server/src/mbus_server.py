@@ -2,6 +2,7 @@ import logging as log
 
 from pymodbus import pymodbus_apply_logging_config
 from pymodbus.server import ModbusTlsServer  # , StartTlsServer
+from pymodbus.datastore import ModbusServerContext, ModbusSlaveContext, ModbusSequentialDataBlock
 
 
 class MbusServer:
@@ -36,8 +37,15 @@ class MbusServer:
 
     async def setup(self):
         pymodbus_apply_logging_config(log.DEBUG)
+        datablock = ModbusSequentialDataBlock(0x00, [17] * 100)
+        context = ModbusServerContext(
+            slaves=ModbusSlaveContext(
+                di=datablock, co=datablock, hr=datablock, ir=datablock
+            ),
+            single=True,
+        )
         self.server = ModbusTlsServer(
-            context=self.context,
+            context=context,
             identity=self.identity,
             address=self.address,
             framer=self.framer,
@@ -45,6 +53,8 @@ class MbusServer:
             keyfile=self.keyfile_path,
             ignore_missing_slaves=self.ignore_missing_slaves,
             broadcast_enable=self.broadcast_enable,
+            request_tracer=self.request_tracer,
+            response_manipulator=self.response_manipulator
             # host=self.host,
             # port=self.port,
         )
