@@ -4,8 +4,8 @@ import asyncio
 from decouple import config
 from pymodbus.framer import Framer
 
-from .util import build_context
-from .mbus_server import MbusServer
+from util import build_context
+from mbus_server import MbusServer
 
 host = config('SERVER_HOSTNAME', default='localhost')
 port = int(config('SERVER_PORT', default='502'))

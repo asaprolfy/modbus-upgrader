@@ -4,7 +4,7 @@ from decouple import config
 
 from pymodbus.framer import Framer
 
-from .mbus_upgrader import MbusUpgrader
+from mbus_upgrader import MbusUpgrader
 
 
 server_host = config('SERVER_HOST', default='localhost')
