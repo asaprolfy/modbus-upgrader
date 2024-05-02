@@ -6,6 +6,8 @@ ENV APP_HOME /app
 ENV MODULE tcp_client
 WORKDIR $APP_HOME
 
+RUN mkdir -p $APP_HOME/$MODULE
+
 COPY requirements.txt ./
 
 RUN pip install --no-cache-dir -r requirements.txt
