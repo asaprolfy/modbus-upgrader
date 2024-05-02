@@ -1,4 +1,5 @@
 import time
+import asyncio
 
 import logging as log
 
@@ -42,4 +43,4 @@ async def run():
 
 
 if __name__ == "__main__":
-    run()
+    asyncio.run(run(), debug=True)
