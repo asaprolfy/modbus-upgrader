@@ -4,6 +4,8 @@ services:
   upgrader:
     container_name: upgrader
     restart: on-failure
+    env_file:
+      - .env.local
     ports:
       - '5020:5020'
       - '502'
@@ -13,6 +15,8 @@ services:
   server:
     container_name: server
     restart: on-failure
+    env_file:
+      - .env.local
     ports:
       - '502:502'
     build:
@@ -21,6 +25,8 @@ services:
   client:
     container_name: client
     restart: on-failure
+    env_file:
+      - .env.local
     ports:
       - '502'
     build:
