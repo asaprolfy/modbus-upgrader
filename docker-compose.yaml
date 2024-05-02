@@ -14,26 +14,26 @@ services:
     build:
       dockerfile: Dockerfile
       context: modbus_upgrader
-  server:
-    container_name: server
+  tcp_server:
+    container_name: tcp_server
     restart: on-failure
     env_file:
-      - server/.env.local
+      - tcp_server/.env.local
     ports:
       - '502:502'
     build:
       dockerfile: Dockerfile
-      context: server
-  client:
-    container_name: client
+      context: tcp_server
+  tls_client:
+    container_name: tls_client
     restart: on-failure
     depends_on:
       - upgrader
       - server
     env_file:
-      - tcp_client/.env.local
+      - tls_client/.env.local
     ports:
       - '502'
     build:
       dockerfile: Dockerfile
-      context: tcp_client
+      context: tls_client

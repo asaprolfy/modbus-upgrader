@@ -3,7 +3,7 @@ FROM python:3.11-slim
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
-ENV MODULE server
+ENV MODULE tls_server
 WORKDIR $APP_HOME
 
 RUN mkdir -p $APP_HOME/$MODULE
