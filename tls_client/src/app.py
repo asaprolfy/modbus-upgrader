@@ -1,5 +1,6 @@
 import time
 import asyncio
+import statistics
 
 import logging as log
 
@@ -17,6 +18,17 @@ keyfile_path = config('KEYFILE_PATH', default='/certs/example.key')
 framer = Framer.TLS
 
 
+def stats(rw_times):
+    maxx = 0
+    minn = 0
+    for i in rw_times:
+        if i > maxx:
+            maxx = i
+        elif 0 < i < minn:
+            minn = i
+    return maxx, minn
+
+
 async def run():
     client = ModbusTlsClient(
         host=server_host,
@@ -26,34 +38,46 @@ async def run():
         keyfile=keyfile_path
     )
 
-    client.connect()
+    await client.connect()
 
-    i = 1
-    sttime = time.time()
-    time.sleep(i)
-    while not client.connected:
-        print(f"Still connecting... elapsed time: {time.time() - sttime}")
-        time.sleep(i)
-        i += 1
-        client.connect()
-    print(f"client connection successful")
+    # i = 1
+    # sttime = time.time()
+    # time.sleep(i)
+    # while not client.connected:
+    #     print(f"Still connecting... elapsed time: {time.time() - sttime}")
+    #     time.sleep(i)
+    #     i += 1
+    #     client.connect()
+    # print(f"client connection successful")
+
+    rw_times = []
     i = 0
     while i < 200:
-        run_some(client)
+        el = run_some(client)
+        rw_times.append(el)
         time.sleep(1)
         i += 1
     client.close()
+    maxx, minn = stats(rw_times)
+    print(f"rw_times: {rw_times}")
+    print(f"mean:    {statistics.mean(rw_times)}")
+    print(f"stddev:  {statistics.stdev(rw_times)}")
+    print(f"max:     {maxx}")
+    print(f"min:     {minn}")
 
 
 def run_some(client):
     try:
+        sttime = time.time()
         rr = client.read_coils(32, 1, slave=1)
-        log.info(f"rr:  {rr}")
+        # log.info(f"rr:  {rr}")
         assert len(rr.bits) == 8
         rr = client.read_holding_registers(4, 2, slave=1)
-        log.info(f"rr: {rr}")
+        elapsed = time.time() - sttime
+        # log.info(f"rr: {rr}")
         assert rr.registers[0] == 17
         assert rr.registers[1] == 17
+        return elapsed
     except ModbusException as e:
         print(f"error: {e}")
 
