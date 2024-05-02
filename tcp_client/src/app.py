@@ -22,7 +22,7 @@ match framer_type.upper():
         log.fatal(f"Error: FRAMER_TYPE not in (SOCKET, ASCII, RTU):  {framer_type}")
 
 
-def run():
+async def run():
     client = ModbusTcpClient(
         host=server_host,
         port=server_port,
@@ -31,9 +31,13 @@ def run():
 
     client.connect()
 
+    i = 1
     sttime = time.time()
+    time.sleep(i)
     while not client.connected:
         print(f"Still connecting... elapsed time: {time.time() - sttime}")
+        time.sleep(i)
+        i += 1
     print(f"client connection successful")
 
 
