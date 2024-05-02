@@ -69,9 +69,11 @@ class MbusUpgrader:
             store = {}
             for i in range(self.num_slaves):
                 store[i.to_bytes(1, 'big')] = RemoteSlaveContext(self.client, slave=i)
+            single = False
         else:
             store = RemoteSlaveContext(self.client, slave=1)
-        context = ModbusServerContext(slaves=store, single=True)
+            single = True
+        context = ModbusServerContext(slaves=store, single=single)
         return context
 
     def build_identity(self):
