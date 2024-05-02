@@ -41,9 +41,10 @@ async def run():
         i += 1
         client.connect()
     print(f"client connection successful")
+    await run_some(client)
 
 
-def run_some(client):
+async def run_some(client):
     try:
         rr = await client.read_coils(32, 1, slave=1)
         assert len(rr.bits) == 8
