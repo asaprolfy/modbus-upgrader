@@ -47,14 +47,14 @@ class MbusUpgrader:
             keyfile=self.keyfile_path,
         )
         self.client.connect()
-        i = 1
-        sttime = time.time()
-        time.sleep(i)
-        while not self.client.connected:
-            print(f"upgrader -> server | conn still waiting:  {time.time() - sttime}")
-            time.sleep(i)
-            i += 0.5
-            self.client.connect()
+        # i = 1
+        # sttime = time.time()
+        # time.sleep(i)
+        # while not self.client.connected:
+        #     print(f"upgrader -> server | conn still waiting:  {time.time() - sttime}")
+        #     time.sleep(i)
+        #     i += 0.5
+        #     self.client.connect()
         self.context = self.build_context()
 
         self.server = await StartAsyncTcpServer(context=self.context,
