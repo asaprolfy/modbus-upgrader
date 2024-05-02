@@ -39,6 +39,7 @@ async def run():
         print(f"Still connecting... elapsed time: {time.time() - sttime}")
         time.sleep(i)
         i += 1
+        client.connect()
     print(f"client connection successful")
 
 

@@ -54,6 +54,7 @@ class MbusUpgrader:
             print(f"upgrader -> server | conn still waiting:  {time.time() - sttime}")
             time.sleep(i)
             i += 0.5
+            self.client.connect()
         self.context = self.build_context()
 
         self.server = await StartAsyncTcpServer(context=self.context,
