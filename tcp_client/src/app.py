@@ -41,16 +41,16 @@ async def run():
         i += 1
         client.connect()
     print(f"client connection successful")
-    await run_some(client)
+    run_some(client)
     time.sleep(i)
     client.close()
 
 
-async def run_some(client):
+def run_some(client):
     try:
-        rr = await client.read_coils(32, 1, slave=1)
+        rr = client.read_coils(32, 1, slave=1)
         assert len(rr.bits) == 8
-        rr = await client.read_holding_registers(4, 2, slave=1)
+        rr = client.read_holding_registers(4, 2, slave=1)
         assert rr.registers[0] == 17
         assert rr.registers[1] == 17
     except ModbusException as e:
