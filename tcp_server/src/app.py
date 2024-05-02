@@ -29,9 +29,8 @@ match framer_type:
 
 
 async def main():
-    context, identity = build_context(store, num_slaves)
+    _, identity = build_context(store, num_slaves)
     server = MbusServer(
-        context=context,
         identity=identity,
         host=host,
         port=port,
