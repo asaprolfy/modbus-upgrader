@@ -45,7 +45,7 @@ class MbusUpgrader:
             certfile=self.certfile_path,
             keyfile=self.keyfile_path,
         )
-        self.client.connect()
+        await self.client.connect()
         assert self.client.connected
         self.context = self.build_context()
 
