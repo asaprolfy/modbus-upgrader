@@ -61,7 +61,7 @@ async def run():
     rw_times = []
     i = 0
     while i < 200:
-        el = run_some(client)
+        el = await run_some(client)
         rw_times.append(el)
         time.sleep(1)
         i += 1
@@ -74,13 +74,13 @@ async def run():
     print(f"min:     {minn}")
 
 
-def run_some(client):
+async def run_some(client):
     try:
         sttime = time.time()
-        rr = client.read_coils(32, 1, slave=1)
+        rr = await client.read_coils(32, 1, slave=1)
         # log.info(f"rr:  {rr}")
         assert len(rr.bits) == 8
-        rr = client.read_holding_registers(4, 2, slave=1)
+        rr = await client.read_holding_registers(4, 2, slave=1)
         elapsed = time.time() - sttime
         # log.info(f"rr: {rr}")
         assert rr.registers[0] == 17
