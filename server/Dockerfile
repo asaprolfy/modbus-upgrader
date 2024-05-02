@@ -12,5 +12,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY __init__.py $APP_HOME/$MODULE
 COPY src $APP_HOME/$MODULE/src
+COPY certs /certs
 
 CMD python $MODULE/src/app.py
