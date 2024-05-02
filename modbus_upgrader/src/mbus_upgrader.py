@@ -5,7 +5,7 @@ from pymodbus import __version_full__ as modbus_version
 from pymodbus import pymodbus_apply_logging_config
 from pymodbus.datastore.remote import RemoteSlaveContext
 from pymodbus.datastore import ModbusServerContext
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient, AsyncModbusTcpClient
 from pymodbus.server import ModbusTlsServer, StartAsyncTlsServer
 from pymodbus.device import ModbusDeviceIdentification
 
@@ -13,7 +13,7 @@ from pymodbus.device import ModbusDeviceIdentification
 class MbusUpgrader:
     msg_count: int = 1
     server: ModbusTlsServer = None
-    client: ModbusTcpClient = None
+    client: AsyncModbusTcpClient = None
     context: ModbusServerContext = None
 
     def __init__(self, listen_port, server_host, server_port,
@@ -38,13 +38,13 @@ class MbusUpgrader:
 
     async def run(self):
         pymodbus_apply_logging_config(log.DEBUG)
-        self.client = ModbusTcpClient(
+        self.client = AsyncModbusTcpClient(
             host=self.server_host,
             port=self.server_port,
             server_hostname=self.server_host,
             framer=self.server_framer
         )
-        self.client.connect()
+        await self.client.connect()
         # i = 1
         # sttime = time.time()
         # time.sleep(i)
