@@ -79,11 +79,15 @@ async def run_some(client):
     try:
         sttime = time.time()
         rr = await client.read_coils(32, 1, slave=1)
-        # log.info(f"rr:  {rr}")
+        print(f"read_coils time:  {time.time() - sttime}")
+        log.info(f"rr:  {rr}")
         # assert len(rr.bits) == 8
+        sttime_new = time.time()
         rr = await client.read_holding_registers(4, 2, slave=1)
+        print(f"read_holding_registers time:  {time.time() - sttime_new}")
         elapsed = time.time() - sttime
-        # log.info(f"rr: {rr}")
+        print(f"elapsed:  {elapsed}")
+        log.info(f"rr: {rr}")
         assert rr.registers[0] == 17
         assert rr.registers[1] == 17
         return elapsed
