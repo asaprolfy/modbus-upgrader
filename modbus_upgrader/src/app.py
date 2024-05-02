@@ -21,7 +21,7 @@ broadcast_enable = bool(config('BROADCAST_ENABLE', default='False'))
 certfile = config('CERTFILE_PATH', default='/certs/example.crt')
 keyfile = config('KEYFILE_PATH', default='/certs/example.key')
 
-match listen_framer_type.upper():
+match listen_framer_type:
     case 'SOCKET':
         listen_framer = Framer.SOCKET
     case 'RTU':

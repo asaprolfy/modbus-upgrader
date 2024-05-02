@@ -12,7 +12,7 @@ server_host = config('SERVER_HOST', default='localhost')
 server_port = int(config('SERVER_PORT', default='502'))
 framer_type = config('FRAMER_TYPE', default='SOCKET')
 
-match framer_type.upper():
+match framer_type:
     case 'SOCKET':
         framer = Framer.SOCKET
     case 'ASCII':
