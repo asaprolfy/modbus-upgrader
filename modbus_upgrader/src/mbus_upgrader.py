@@ -13,7 +13,8 @@ from pymodbus.device import ModbusDeviceIdentification
 class MbusUpgrader:
     msg_count: int = 1
     server: ModbusTlsServer = None
-    client: AsyncModbusTcpClient = None
+    client: ModbusTcpClient = None
+    # client: AsyncModbusTcpClient = None
     context: ModbusServerContext = None
 
     def __init__(self, listen_port, server_host, server_port,
@@ -34,17 +35,27 @@ class MbusUpgrader:
         self.ignore_missing_slaves = ignore_missing_slaves
         self.broadcast_enable = broadcast_enable
         self.device_name = device_name
-        self.identity = self.build_identity()
+        # self.identity = self.build_identity()
 
     async def run(self):
         pymodbus_apply_logging_config(log.DEBUG)
-        self.client = AsyncModbusTcpClient(
+        self.client = ModbusTcpClient(
             host=self.server_host,
             port=self.server_port,
             server_hostname=self.server_host,
             framer=self.server_framer
         )
-        await self.client.connect()
+        self.client.connect()
+        assert self.client.connected
+
+        # pymodbus_apply_logging_config(log.DEBUG)
+        # self.client = AsyncModbusTcpClient(
+        #     host=self.server_host,
+        #     port=self.server_port,
+        #     server_hostname=self.server_host,
+        #     framer=self.server_framer
+        # )
+        # await self.client.connect()
         # i = 1
         # sttime = time.time()
         # time.sleep(i)
@@ -53,10 +64,10 @@ class MbusUpgrader:
         #     time.sleep(i)
         #     i += 0.5
         #     self.client.connect()
-        self.context = self.build_context()
+        self.context = await self.build_context()
 
         self.server = await StartAsyncTlsServer(context=self.context,
-                                                identity=self.identity,
+                                                # identity=self.identity,
                                                 address=self.listen_addr,
                                                 framer=self.listen_framer,
                                                 certfile=self.certfile_path,
@@ -64,7 +75,7 @@ class MbusUpgrader:
                                                 ignore_missing_slaves=self.ignore_missing_slaves,
                                                 broadcast_enable=self.broadcast_enable)
 
-    def build_context(self):
+    async def build_context(self):
         if self.num_slaves:
             store = {}
             for i in range(self.num_slaves):
@@ -76,16 +87,16 @@ class MbusUpgrader:
         context = ModbusServerContext(slaves=store, single=single)
         return context
 
-    def build_identity(self):
-        return ModbusDeviceIdentification(
-            info_name={
-                "VendorName": "Pymodbus",
-                "ProductCode": "PM",
-                "ProductName": self.device_name,
-                "ModelName": self.device_name,
-                "MajorMinorRevision": modbus_version,
-            }
-        )
+    # def build_identity(self):
+    #     return ModbusDeviceIdentification(
+    #         info_name={
+    #             "VendorName": "Pymodbus",
+    #             "ProductCode": "PM",
+    #             "ProductName": self.device_name,
+    #             "ModelName": self.device_name,
+    #             "MajorMinorRevision": modbus_version,
+    #         }
+    #     )
 
 
 if __name__ == "main":
