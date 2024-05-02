@@ -1,4 +1,5 @@
 import logging as log
+import time
 
 from pymodbus import __version_full__ as modbus_version
 from pymodbus import pymodbus_apply_logging_config
@@ -45,8 +46,14 @@ class MbusUpgrader:
             certfile=self.certfile_path,
             keyfile=self.keyfile_path,
         )
-        await self.client.connect()
-        assert self.client.connected
+        self.client.connect()
+        i = 1
+        sttime = time.time()
+        time.sleep(i)
+        while not self.client.connected:
+            print(f"upgrader -> server | conn still waiting:  {sttime - time.time()}")
+            time.sleep(i)
+            i += 0.5
         self.context = self.build_context()
 
         self.server = await StartAsyncTcpServer(context=self.context,
