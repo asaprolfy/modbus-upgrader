@@ -5,7 +5,7 @@ services:
     container_name: upgrader
     restart: on-failure
     depends_on:
-      - server
+      - tcp_server
     env_file:
       - modbus_upgrader/.env.local
     ports:
@@ -29,7 +29,7 @@ services:
     restart: on-failure
     depends_on:
       - upgrader
-      - server
+      - tcp_server
     env_file:
       - tls_client/.env.local
     ports:
