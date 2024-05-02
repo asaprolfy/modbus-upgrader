@@ -12,7 +12,7 @@ port = int(config('SERVER_PORT', default='502'))
 address = (host, port)
 framer_type = config('FRAMER_TYPE', default='SOCKET')
 
-store = config('STORE', default='factory')
+store = config('STORE', default='sequential')
 num_slaves = int(config('NUM_SLAVES', default='0'))
 ignore_missing_slaves = bool(config('IGNORE_MISSING_SLAVES', default='True'))
 broadcast_enable = bool(config('BROADCAST_ENABLE', default='False'))
