@@ -51,7 +51,7 @@ class MbusUpgrader:
         sttime = time.time()
         time.sleep(i)
         while not self.client.connected:
-            print(f"upgrader -> server | conn still waiting:  {sttime - time.time()}")
+            print(f"upgrader -> server | conn still waiting:  {time.time() - sttime}")
             time.sleep(i)
             i += 0.5
         self.context = self.build_context()
