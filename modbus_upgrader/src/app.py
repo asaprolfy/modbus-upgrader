@@ -18,8 +18,8 @@ num_slaves = int(config('NUM_SLAVES', default='0'))
 ignore_missing_slaves = bool(config('IGNORE_MISSING_SLAVES', default='True'))
 broadcast_enable = bool(config('BROADCAST_ENABLE', default='False'))
 
-certfile = config('CERTFILE_PATH', default='../../certs/modbus.crt')
-keyfile = config('KEYFILE_PATH', default='../../certs/modbus.key')
+certfile = config('CERTFILE_PATH', default='/certs/example.crt')
+keyfile = config('KEYFILE_PATH', default='/certs/example.key')
 
 match listen_framer_type.upper():
     case 'SOCKET':

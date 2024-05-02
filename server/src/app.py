@@ -11,8 +11,8 @@ host = config('SERVER_HOSTNAME', default='localhost')
 port = int(config('SERVER_PORT', default='502'))
 address = (host, port)
 
-certfile_path = config('CERTFILE_PATH', default='../../certs/modbus.crt')
-keyfile_path = config('KEYFILE_PATH', default='../../certs/modbus.key')
+certfile_path = config('CERTFILE_PATH', default='/certs/example.crt')
+keyfile_path = config('KEYFILE_PATH', default='/certs/example.key')
 
 store = config('STORE', default='factory')
 num_slaves = int(config('NUM_SLAVES', default='0'))
