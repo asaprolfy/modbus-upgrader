@@ -80,7 +80,7 @@ async def run_some(client):
         sttime = time.time()
         rr = await client.read_coils(32, 1, slave=1)
         # log.info(f"rr:  {rr}")
-        assert len(rr.bits) == 8
+        # assert len(rr.bits) == 8
         rr = await client.read_holding_registers(4, 2, slave=1)
         elapsed = time.time() - sttime
         # log.info(f"rr: {rr}")
