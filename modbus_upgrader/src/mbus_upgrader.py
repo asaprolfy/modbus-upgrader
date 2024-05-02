@@ -1,19 +1,19 @@
 import logging as log
-import time
+# import time
 
 from pymodbus import __version_full__ as modbus_version
 from pymodbus import pymodbus_apply_logging_config
 from pymodbus.datastore.remote import RemoteSlaveContext
 from pymodbus.datastore import ModbusServerContext
-from pymodbus.client import ModbusTlsClient
-from pymodbus.server import ModbusTcpServer, StartAsyncTcpServer
+from pymodbus.client import ModbusTcpClient
+from pymodbus.server import ModbusTlsServer, StartAsyncTlsServer
 from pymodbus.device import ModbusDeviceIdentification
 
 
 class MbusUpgrader:
     msg_count: int = 1
-    server: ModbusTcpServer = None
-    client: ModbusTlsClient = None
+    server: ModbusTlsServer = None
+    client: ModbusTcpClient = None
     context: ModbusServerContext = None
 
     def __init__(self, listen_port, server_host, server_port,
@@ -38,13 +38,11 @@ class MbusUpgrader:
 
     async def run(self):
         pymodbus_apply_logging_config(log.DEBUG)
-        self.client = ModbusTlsClient(
+        self.client = ModbusTcpClient(
             host=self.server_host,
             port=self.server_port,
             server_hostname=self.server_host,
-            framer=self.server_framer,
-            certfile=self.certfile_path,
-            keyfile=self.keyfile_path,
+            framer=self.server_framer
         )
         self.client.connect()
         # i = 1
@@ -57,10 +55,12 @@ class MbusUpgrader:
         #     self.client.connect()
         self.context = self.build_context()
 
-        self.server = await StartAsyncTcpServer(context=self.context,
+        self.server = await StartAsyncTlsServer(context=self.context,
                                                 identity=self.identity,
                                                 address=self.listen_addr,
                                                 framer=self.listen_framer,
+                                                certfile=self.certfile_path,
+                                                keyfile=self.keyfile_path,
                                                 ignore_missing_slaves=self.ignore_missing_slaves,
                                                 broadcast_enable=self.broadcast_enable)
 
