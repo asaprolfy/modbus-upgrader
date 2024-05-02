@@ -1,2 +1,0 @@
-pymodbus[all]==3.6.8
-python-decouple==3.8
