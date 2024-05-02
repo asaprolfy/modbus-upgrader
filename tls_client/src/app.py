@@ -6,7 +6,7 @@ import logging as log
 
 from decouple import config
 from pymodbus import Framer, ModbusException
-from pymodbus.client import ModbusTlsClient
+from pymodbus.client import ModbusTlsClient, AsyncModbusTlsClient
 
 
 server_host = config('SERVER_HOST', default='upgrader')
@@ -30,7 +30,15 @@ def stats(rw_times):
 
 
 async def run():
-    client = ModbusTlsClient(
+    # client = ModbusTlsClient(
+    #     host=server_host,
+    #     port=server_port,
+    #     framer=framer,
+    #     certfile=certfile_path,
+    #     keyfile=keyfile_path
+    # )
+
+    client = AsyncModbusTlsClient(
         host=server_host,
         port=server_port,
         framer=framer,
